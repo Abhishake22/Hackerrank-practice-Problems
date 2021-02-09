@@ -52,3 +52,85 @@ FROM STATION
 WHERE LOWER(SUBSTR(CITY,1,1)) NOT IN ('a','e','i','o','u') AND LOWER(SUBSTR(CITY, LENGTH(CITY),1)) NOT IN ('a','e','i','o','u');
 
 
+
+#Query the Name of any student in STUDENTS who scored higher than  Marks. Order your output by the last three characters of each name. 
+If two or more students both have names ending in the same last three characters (i.e.: Bobby, Robby, etc.), secondary sort them by ascending ID.
+
+
+select Name
+from STUDENTS
+where Marks>75
+order by RIGHT(Name,3),ID;
+
+
+#Write a query that prints a list of employee names (i.e.: the name attribute) from the Employee table in alphabetical order.
+
+
+SELECT name
+from Employee
+order by name ASC;
+
+
+# Write a query that prints a list of employee names (i.e.: the name attribute) for employees in Employee having a salary greater than  per month who have been employees for less than  months. 
+  Sort your result by ascending employee_id.
+
+
+select name
+from Employee
+where salary>2000 and months<10
+order by employee_id;
+
+
+
+# Given the table schemas below, write a query to print the company_code, founder name, total number of lead managers, total number of senior managers, total number of managers, and total number of employees. Order your output by ascending company_code.
+
+Note:
+
+The tables may contain duplicate records.
+The company_code is string, so the sorting should not be numeric. 
+For example, if the company_codes are C_1, C_2, and C_10, then the ascending company_codes will be C_1, C_10, and C_2.
+
+
+
+
+
+SELECT c.company_code, c.founder, 
+       COUNT(DISTINCT l.lead_manager_code), COUNT(DISTINCT s.senior_manager_code),
+       COUNT(DISTINCT m.manager_code), COUNT(DISTINCT e.employee_code)
+FROM Company c JOIN Lead_Manager l ON c.company_code = l.company_code JOIN
+     Senior_Manager s ON l.lead_manager_code = s.lead_manager_code JOIN
+     Manager m ON s.senior_manager_code = m.senior_manager_code JOIN
+     Employee e ON m.manager_code = e.manager_code   
+GROUP BY c.company_code, c.founder ORDER BY c.company_code;
+
+
+
+
+# Consider  and  to be two points on a 2D plane.
+
+ happens to equal the minimum value in Northern Latitude (LAT_N in STATION).
+ happens to equal the minimum value in Western Longitude (LONG_W in STATION).
+ happens to equal the maximum value in Northern Latitude (LAT_N in STATION).
+ happens to equal the maximum value in Western Longitude (LONG_W in STATION).
+Query the Manhattan Distance between points  and  and round it to a scale of  decimal places.
+
+
+SELECT ROUND(ABS(MIN(LAT_N)-MAX(LAT_N)) + ABS(MIN(LONG_W)-MAX(LONG_W)), 4) 
+FROM STATION;
+
+
+
+
+#Query the total population of all cities in CITY where District is California.
+
+select sum(population)
+from CITY
+where District = 'california'
+
+
+# Query the difference between the maximum and minimum populations in CITY.
+
+SELECT max(population) - min(population)
+from CITY
+
+
